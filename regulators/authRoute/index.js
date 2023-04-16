@@ -7,6 +7,7 @@ export const register = async (req, res) => {
     try {
         const password = req.body.password;
         const salt = await bcrypt.genSalt(10);
+        // Хешируем пароль и храним базе данных с шифром
         const hash = await bcrypt.hash(password, salt);
 
         //Регистрция пользователя с необходимыми полями по запросу на этот роут

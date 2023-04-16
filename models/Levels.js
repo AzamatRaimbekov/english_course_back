@@ -1,7 +1,30 @@
 import mongoose from 'mongoose';
 
+const PartsOfLevel = new mongoose.Schema(
+    {
+        title: {
+            type: String,
+            required: true,
+
+        },
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            unique: true
+        }
+    },
+    {
+        timestamps: true,
+    },
+);
+
+// export default mongoose.model('parts', PartsOfLevel);
+
 const LevelsSchema = new mongoose.Schema(
     {
+        currentLevel: {
+            type: Number,
+            required: true,
+        },
         title: {
             type: String,
             required: true,
@@ -12,8 +35,8 @@ const LevelsSchema = new mongoose.Schema(
             unique: true,
         },
         parts: {
-            type: Array,
-            default: [],
+            type: [PartsOfLevel],
+            required: true,
         },
         viewsCount: {
             type: Number,
@@ -31,4 +54,4 @@ const LevelsSchema = new mongoose.Schema(
     },
 );
 
-export default mongoose.model('Post', LevelsSchema);
+export default mongoose.model('LevelsSchema', LevelsSchema);

@@ -1,5 +1,5 @@
 import LevelsSchema from '../../models/Levels.js';
-
+import UserModel from "../../models/User.js"
 export const getLastTags = async (req, res) => {
   try {
     const posts = await LevelsSchema.find().limit(5).exec();
@@ -27,7 +27,7 @@ export const getAllLevels = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось получить статьи',
+      message: 'Ошибка',
     });
   }
 };
@@ -106,6 +106,34 @@ export const remove = async (req, res) => {
     });
   }
 };
+
+export const changeLevel = async (req, res) => {
+  const userId = req.body.id
+  console.log(userId, "userId")
+  try {
+    const user = await UserModel.findOne({ _id: req.body.id });
+    user.level = req.body.level
+    user.passed_first_exam = true
+    const userchech = await user.save();
+    // await UserModel.updateOne(
+    //   {
+    //     _id: userId,
+    //   },
+    //   {
+    //     ...user,
+    //     level: req.body.level,
+    //     passed_first_exam: true
+    //   },
+    // );
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось найти пользователя',
+    });
+  }
+};
+
 
 export const createLevel = async (req, res) => {
   console.log(req.body)
