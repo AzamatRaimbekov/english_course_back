@@ -9,6 +9,7 @@ import UserModel from "./models/User.js"
 import { handleValidationErrors, checkUserAuh } from './helpers/index.js';
 import { AuthRegulator, Levels } from "./regulators/index.js"
 import cors from "cors"
+import { getOneLevel_v2 } from "./regulators/levels/index.js"
 // req - то что мы получили , res -  Ответ со стороны Бэка
 
 // Подключение MongoDB
@@ -38,10 +39,18 @@ MainApp.get(ROUTERS.ME, checkUserAuh, AuthRegulator.getMyProfile);
 
 
 // Всё что связанно с уровнями
+// MainApp.get(ROUTERS.LEVELS_DETAIL, Levels.getOneLevel);
+
+
+// Добавления теста к уровню 
+MainApp.patch(ROUTERS.LEVELS_DETAIL, Levels.createTestForLevel);
+
+
+MainApp.get(ROUTERS.LEVELS_DETAIL, Levels.getOneLevel_v2);
 
 // Создание уровня
-MainApp.post(ROUTERS.LEVELS, checkUserAuh, postCreateLevels, Levels.createLevel);
-MainApp.patch(ROUTERS.CHANGE_LEVEL, Levels.changeLevel);
+MainApp.post(ROUTERS.LEVELS, checkUserAuh, Levels.createLevel);
+MainApp.patch(ROUTERS.CHANGE_LEVEL, Levels.createTestForLevel);
 
 // MainApp.get(ROUTERS.LEVELS, Levels.getAllLevels);
 
@@ -49,9 +58,8 @@ MainApp.patch(ROUTERS.CHANGE_LEVEL, Levels.changeLevel);
 // MainApp.get(ROUTERS.LEVELS, Levels.getAllLevels);
 
 
-MainApp.get(ROUTERS.LEVELS, Levels.getAllLevels);
 
-MainApp.get(ROUTERS.LEVELS_DETAIL, Levels.getOne);
+MainApp.get(ROUTERS.LEVELS, Levels.getAllLevels);
 MainApp.delete(ROUTERS.LEVELS_DETAIL, checkUserAuh, Levels.remove);
 MainApp.patch(ROUTERS.LEVELS_DETAIL, checkUserAuh, Levels.update);
 

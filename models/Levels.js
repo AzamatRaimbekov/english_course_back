@@ -1,15 +1,33 @@
 import mongoose from 'mongoose';
 
+const questionItem = new mongoose.Schema(
+    {
+        question: {
+            type: String,
+            required: true,
+        },
+        answer: {
+            type: String,
+            required: true,
+        },
+        trueAnswer: {
+            type: Boolean,
+            required: true,
+        },
+    },
+    {
+        timestamps: true,
+    },
+);
 const PartsOfLevel = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: true,
 
         },
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            unique: true
+        textExtra: {
+            type: String,
+            required: true,
         }
     },
     {
@@ -17,10 +35,28 @@ const PartsOfLevel = new mongoose.Schema(
     },
 );
 
+const ExamOfLevel = new mongoose.Schema(
+    {
+        radios: {
+            type: [questionItem],
+            required: false,
+        },
+    },
+    {
+        timestamps: true,
+    },
+);
+
+
+
 // export default mongoose.model('parts', PartsOfLevel);
 
 const LevelsSchema = new mongoose.Schema(
     {
+        examTest: {
+            type: [ExamOfLevel],
+            required: false,
+        },
         currentLevel: {
             type: Number,
             required: true,
@@ -36,16 +72,17 @@ const LevelsSchema = new mongoose.Schema(
         },
         parts: {
             type: [PartsOfLevel],
-            required: true,
+            required: false,
         },
         viewsCount: {
             type: Number,
             default: 0,
+            required: false,
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
-            required: true,
+            required: false,
         },
         imageUrl: String,
     },

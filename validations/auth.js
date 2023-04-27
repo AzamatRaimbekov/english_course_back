@@ -27,6 +27,6 @@ export const loginValidation = [
 export const postCreateLevels = [
     body('title', 'Введите название уровня').isLength({ min: 3 }).isString(),
     body('text', 'Введите текст').optional().isLength({ min: 3 }).isString(),
-    body('parts', 'Неверный формат').optional().isString(),
-    body('imageUrl', 'Неверная ссылка на изображение').optional().isString(),
+    // body('parts', 'Неверный формат').optional().isString(),
+    // body('imageUrl', 'Неверная ссылка на изображение').optional().isString(),
 ];

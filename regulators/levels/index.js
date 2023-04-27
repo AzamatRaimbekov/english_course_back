@@ -1,5 +1,7 @@
 import LevelsSchema from '../../models/Levels.js';
 import UserModel from "../../models/User.js"
+import mongoose from "mongoose"
+
 export const getLastTags = async (req, res) => {
   try {
     const posts = await LevelsSchema.find().limit(5).exec();
@@ -32,14 +34,83 @@ export const getAllLevels = async (req, res) => {
   }
 };
 
-export const getOne = async (req, res) => {
-  console.log(req)
+export const getOneLevel = async (req, res) => {
+
   try {
-    const postId = req?.params?.id;
+    const levelId = req.params.id;
+    // const doc = await LevelsSchema.findById(postId)
+    // res.json(doc);
+    LevelsSchema.findOneAndUpdate(
+      {
+        _id: levelId
+      },
+      {
+        $inc: { viewsCount: 1 }
+      },
+      {
+        returnOriginal: false
+      },
+      (err, doc) => {
+        console.log("[ERROR]", err)
+        if (err) {
+          return res.status(500).json({
+            message: "Ошибка не удалось!"
+          })
+        }
+        if (!doc) {
+          return res.status(404).json({
+            message: "Нет такого уровня"
+          })
+        }
+        res.json(doc)
+      }
+
+
+    )
+
+
+    // LevelsSchema.findOneAndUpdate(
+    //   {
+    //     _id: postId,
+    //   },
+    //   {
+    //     returnDocument: 'after',
+    //   },
+    //   (err, doc) => {
+    //     console.log("[ERROR]", err)
+    //     console.log("[DOC]", doc)
+    //     if (err) {
+    //       console.log(err);
+    //       return res.status(500).json({
+    //         message: 'Не удалось вернуть статью',
+    //       });
+    //     }
+
+    //     if (!doc) {
+    //       return res.status(404).json({
+    //         message: 'Статья не найдена',
+    //       });
+    //     }
+
+    //     res.json(doc);
+    //   }
+    // )
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось получить данные',
+    });
+  }
+};
+
+
+export const getOne = async (req, res) => {
+  try {
+    const level = req.params.id;
 
     LevelsSchema.findOneAndUpdate(
       {
-        _id: postId,
+        _id: level,
       },
       {
         $inc: { viewsCount: 1 },
@@ -51,7 +122,7 @@ export const getOne = async (req, res) => {
         if (err) {
           console.log(err);
           return res.status(500).json({
-            message: 'Не удалось получить данные',
+            message: 'Не удалось вернуть статью',
           });
         }
 
@@ -139,15 +210,17 @@ export const createLevel = async (req, res) => {
   console.log(req.body)
   try {
     const doc = new LevelsSchema({
+      currentLevel: req.body.currentLevel,
       title: req.body.title,
       text: req.body.text,
-      imageUrl: req.body.imageUrl,
-      parts: req?.body?.parts?.split(','),
+      // imageUrl: req?.body?.imageUrl || "",
+
+      parts: req.body.parts,
       user: req.userId,
     });
 
     const post = await doc.save();
-
+    console.log("[wwwwww]", post)
     res.json(post);
   } catch (err) {
     console.log(err);
@@ -176,6 +249,7 @@ export const update = async (req, res) => {
 
     res.json({
       success: true,
+      data: doc
     });
   } catch (err) {
     console.log(err);
@@ -183,4 +257,61 @@ export const update = async (req, res) => {
       message: 'Не удалось обновить статью',
     });
   }
+};
+
+
+
+
+
+export const getLevelDetail = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    await LevelsSchema.findOneAndUpdate(
+      {
+        _id: postId,
+      }
+    );
+    res.json({
+      success: true,
+      data: doc
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось обновить статью',
+    });
+  }
+};
+
+
+export const getOneLevel_v2 = async (req, res) => {
+
+  const postId = req.params.id;
+
+  LevelsSchema.findOneAndUpdate(
+    { _id: postId },
+    { $inc: { viewsCount: 1 } },
+    { upsert: true, useFindAndModify: false },
+  )
+    .then(ress => {
+      res.json(ress);
+    })
+    .catch(err => res.json({ message: "Не удалось получить данные" }));
+};
+
+
+
+export const createTestForLevel = async (req, res) => {
+
+  const postId = req.params.id;
+
+  LevelsSchema.findOneAndUpdate(
+    { _id: postId },
+    { exam: req.body.exam },
+    { upsert: true, useFindAndModify: false },
+  )
+    .then(ress => {
+      res.json(ress);
+    })
+    .catch(err => res.json({ message: "Не удалось добавить данные" }));
 };
