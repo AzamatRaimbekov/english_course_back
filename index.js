@@ -43,14 +43,14 @@ MainApp.get(ROUTERS.ME, checkUserAuh, AuthRegulator.getMyProfile);
 
 
 // Добавления теста к уровню 
-MainApp.patch(ROUTERS.LEVELS_DETAIL, Levels.createTestForLevel);
+MainApp.patch(ROUTERS.LEVELS_EXAM, Levels.createTestForLevel);
 
 
 MainApp.get(ROUTERS.LEVELS_DETAIL, Levels.getOneLevel_v2);
 
 // Создание уровня
 MainApp.post(ROUTERS.LEVELS, checkUserAuh, Levels.createLevel);
-MainApp.patch(ROUTERS.CHANGE_LEVEL, Levels.createTestForLevel);
+MainApp.patch(ROUTERS.CHANGE_LEVEL, Levels.changeLevel);
 
 // MainApp.get(ROUTERS.LEVELS, Levels.getAllLevels);
 
@@ -60,6 +60,12 @@ MainApp.patch(ROUTERS.CHANGE_LEVEL, Levels.createTestForLevel);
 
 
 MainApp.get(ROUTERS.LEVELS, Levels.getAllLevels);
+// Взять всех пользователей
+MainApp.get(ROUTERS.ALL_USERS, Levels.getAllUsers);
+
+
+
+
 MainApp.delete(ROUTERS.LEVELS_DETAIL, checkUserAuh, Levels.remove);
 MainApp.patch(ROUTERS.LEVELS_DETAIL, checkUserAuh, Levels.update);
 

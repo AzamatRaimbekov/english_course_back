@@ -2,10 +2,6 @@ import mongoose from 'mongoose';
 
 const questionItem = new mongoose.Schema(
     {
-        question: {
-            type: String,
-            required: true,
-        },
         answer: {
             type: String,
             required: true,
@@ -14,10 +10,7 @@ const questionItem = new mongoose.Schema(
             type: Boolean,
             required: true,
         },
-    },
-    {
-        timestamps: true,
-    },
+    }
 );
 const PartsOfLevel = new mongoose.Schema(
     {
@@ -37,6 +30,10 @@ const PartsOfLevel = new mongoose.Schema(
 
 const ExamOfLevel = new mongoose.Schema(
     {
+        question: {
+            type: String,
+            required: true,
+        },
         radios: {
             type: [questionItem],
             required: false,

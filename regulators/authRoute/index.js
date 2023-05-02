@@ -52,7 +52,7 @@ export const login = async (req, res) => {
 
         if (!user) {
             return res.status(404).json({
-                message: 'Не найден пользаветель',
+                message: 'Неверный логин или пароль',
             });
         }
         // Шифруем пароль

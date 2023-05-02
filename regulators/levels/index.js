@@ -1,4 +1,5 @@
 import LevelsSchema from '../../models/Levels.js';
+import UserSchema from '../../models/User.js';
 import UserModel from "../../models/User.js"
 import mongoose from "mongoose"
 
@@ -25,6 +26,17 @@ export const getLastTags = async (req, res) => {
 export const getAllLevels = async (req, res) => {
   try {
     const posts = await LevelsSchema.find().populate('user').exec();
+    res.json(posts);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Ошибка',
+    });
+  }
+};
+export const getAllUsers = async (req, res) => {
+  try {
+    const posts = await UserSchema.find().exec();
     res.json(posts);
   } catch (err) {
     console.log(err);
@@ -303,15 +315,17 @@ export const getOneLevel_v2 = async (req, res) => {
 
 export const createTestForLevel = async (req, res) => {
 
+  console.log(req.body.examTest)
+
   const postId = req.params.id;
 
   LevelsSchema.findOneAndUpdate(
     { _id: postId },
-    { exam: req.body.exam },
+    { examTest: req.body.examTest },
     { upsert: true, useFindAndModify: false },
   )
     .then(ress => {
       res.json(ress);
     })
-    .catch(err => res.json({ message: "Не удалось добавить данные" }));
+    .catch(err => res.json({ message: "Не удалось добавить данные", err: err }));
 };
