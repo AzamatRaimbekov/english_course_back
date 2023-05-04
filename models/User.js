@@ -14,8 +14,6 @@ const UserSchema = new mongoose.Schema(
             default: 1,
             type: Number,
             required: true,
-            min: 1,
-            max: 10
         },
         fullName:
         {

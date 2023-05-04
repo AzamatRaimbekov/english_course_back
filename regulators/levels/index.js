@@ -1,7 +1,6 @@
 import LevelsSchema from '../../models/Levels.js';
 import UserSchema from '../../models/User.js';
 import UserModel from "../../models/User.js"
-import mongoose from "mongoose"
 
 export const getLastTags = async (req, res) => {
   try {
@@ -134,13 +133,13 @@ export const getOne = async (req, res) => {
         if (err) {
           console.log(err);
           return res.status(500).json({
-            message: 'Не удалось вернуть статью',
+            message: 'Не удалось вернуть',
           });
         }
 
         if (!doc) {
           return res.status(404).json({
-            message: 'Статья не найдена',
+            message: 'Не найдена',
           });
         }
 
@@ -150,7 +149,7 @@ export const getOne = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось получить статьи',
+      message: 'Не удалось получить',
     });
   }
 };
@@ -167,13 +166,13 @@ export const remove = async (req, res) => {
         if (err) {
           console.log(err);
           return res.status(500).json({
-            message: 'Не удалось удалить статью',
+            message: 'Не удалось удалить',
           });
         }
 
         if (!doc) {
           return res.status(404).json({
-            message: 'Статья не найдена',
+            message: 'Не найдена',
           });
         }
 
@@ -185,7 +184,7 @@ export const remove = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось получить статьи',
+      message: 'Не удалось получить',
     });
   }
 };
@@ -237,7 +236,7 @@ export const createLevel = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось создать статью',
+      message: 'Не удалось создать',
     });
   }
 };
@@ -266,13 +265,10 @@ export const update = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось обновить статью',
+      message: 'Не удалось обновить',
     });
   }
 };
-
-
-
 
 
 export const getLevelDetail = async (req, res) => {
@@ -290,7 +286,7 @@ export const getLevelDetail = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось обновить статью',
+      message: 'Не удалось обновить',
     });
   }
 };

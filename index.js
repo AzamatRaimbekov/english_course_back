@@ -1,15 +1,11 @@
 
 import express from "express"
-import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 import { loginValidation, postCreateLevels, registerValidation } from "./validations/auth.js"
-import { validationResult } from "express-validator"
 import { ROUTERS } from "./constans/routes.js"
-import UserModel from "./models/User.js"
 import { handleValidationErrors, checkUserAuh } from './helpers/index.js';
 import { AuthRegulator, Levels } from "./regulators/index.js"
 import cors from "cors"
-import { getOneLevel_v2 } from "./regulators/levels/index.js"
 // req - то что мы получили , res -  Ответ со стороны Бэка
 
 // Подключение MongoDB
@@ -26,7 +22,7 @@ MainApp.use(cors())
 MainApp.use(express.json())
 
 MainApp.get("/", (req, res) => {
-    res.send("Hellow world")
+    res.send("Работает")
 })
 
 // Регистрация
@@ -39,40 +35,32 @@ MainApp.get(ROUTERS.ME, checkUserAuh, AuthRegulator.getMyProfile);
 
 
 // Всё что связанно с уровнями
-// MainApp.get(ROUTERS.LEVELS_DETAIL, Levels.getOneLevel);
-
 
 // Добавления теста к уровню 
 MainApp.patch(ROUTERS.LEVELS_EXAM, Levels.createTestForLevel);
 
-
+// Детальная страница уровня
 MainApp.get(ROUTERS.LEVELS_DETAIL, Levels.getOneLevel_v2);
 
 // Создание уровня
 MainApp.post(ROUTERS.LEVELS, checkUserAuh, Levels.createLevel);
+// Изменение уровня, и прохождения первого квалифицаионного уровня 
 MainApp.patch(ROUTERS.CHANGE_LEVEL, Levels.changeLevel);
 
-// MainApp.get(ROUTERS.LEVELS, Levels.getAllLevels);
 
-// Прыжок на следующий уровень
-// MainApp.get(ROUTERS.LEVELS, Levels.getAllLevels);
-
-
-
+// Взлять все уровни
 MainApp.get(ROUTERS.LEVELS, Levels.getAllLevels);
 // Взять всех пользователей
 MainApp.get(ROUTERS.ALL_USERS, Levels.getAllUsers);
 
-
-
-
+// Роут для удаления
 MainApp.delete(ROUTERS.LEVELS_DETAIL, checkUserAuh, Levels.remove);
+// Роут для обнавления уровня
 MainApp.patch(ROUTERS.LEVELS_DETAIL, checkUserAuh, Levels.update);
 
 
 
 // Конфигурация сервера
-
 MainApp.listen(4444, (err) => {
     if (err) {
         return console.log(err)
