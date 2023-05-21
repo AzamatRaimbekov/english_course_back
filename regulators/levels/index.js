@@ -224,6 +224,7 @@ export const createLevel = async (req, res) => {
       currentLevel: req.body.currentLevel,
       title: req.body.title,
       text: req.body.text,
+      videoLink: req.body.videoLink,
       // imageUrl: req?.body?.imageUrl || "",
 
       parts: req.body.parts,

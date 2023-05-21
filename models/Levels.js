@@ -21,7 +21,8 @@ const PartsOfLevel = new mongoose.Schema(
         textExtra: {
             type: String,
             required: true,
-        }
+        },
+        videoLinkExtra: String
     },
     {
         timestamps: true,
@@ -62,6 +63,7 @@ const LevelsSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        videoLink: String,
         text: {
             type: String,
             required: true,
