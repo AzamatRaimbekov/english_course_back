@@ -9,7 +9,7 @@ import cors from "cors"
 // req - то что мы получили , res -  Ответ со стороны Бэка
 
 // Подключение MongoDB
-mongoose.connect('mongodb+srv://encourseskg:Azamat12345@englishcourse.wuzjxw6.mongodb.net/blog?retryWrites=true&w=majority').then(() => {
+mongoose.connect('mongodb+srv://encourseskg:Aida12345@englishcourse.wuzjxw6.mongodb.net/blog?retryWrites=true&w=majority').then(() => {
     console.log("Подключено")
 }).catch((error) => {
     console.log("Ошибка", error)
